@@ -1,0 +1,20 @@
+server:
+  port: 0 # 這會產生隨機port號
+
+spring:
+  application:
+    name: local-test # 防止多人測試時 註冊到其它服務
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+eureka:
+  instance:
+    prefer-ip-address: true #以IP地址注册到服务中心
+  client:
+    register-with-eureka: true
+    serviceUrl:
+      defaultZone: http://140.134.26.65:50608/eureka/
