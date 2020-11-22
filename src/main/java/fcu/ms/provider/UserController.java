@@ -24,11 +24,8 @@ public class UserController {
 
         Map<String, JSONObject> entities = new HashMap<String, JSONObject>();
         if(user != null) {
-            JSONObject entity = new JSONObject();
             int userId = user.getId();
-            entity.put("name", user.getName());
-            entity.put("firebase_uid", user.getFirebaseUid());
-
+            JSONObject entity = UtilForJson.getUserEntity(user);
             entities.put(String.valueOf(userId), entity);
             return new ResponseEntity<Object>(entities, headers, HttpStatus.OK);
         } else {
@@ -45,11 +42,8 @@ public class UserController {
 
         Map<String, JSONObject> entities = new HashMap<String, JSONObject>();
         if(user != null) {
-            JSONObject entity = new JSONObject();
             int userId = user.getId();
-            entity.put("name", user.getName());
-            entity.put("firebase_uid", user.getFirebaseUid());
-
+            JSONObject entity = UtilForJson.getUserEntity(user);
             entities.put(String.valueOf(userId), entity);
             return new ResponseEntity<Object>(entities, headers, HttpStatus.OK);
         } else {

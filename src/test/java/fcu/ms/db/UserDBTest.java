@@ -15,8 +15,8 @@ public class UserDBTest {
 
     @Test
     public void getUser_TEST() {
-        User user = userDB.getUser(24);
-        System.out.println(user.getName());
+        User user = userDB.getUser(21);
+        System.out.println(user);
     }
 
     @Test

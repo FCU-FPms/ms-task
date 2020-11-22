@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fcu.ms.data.User;
+import fcu.ms.data.UserBuilder;
 import fcu.ms.dbUtil.MySqlBoneCP;
 
 public class UserDB {
@@ -214,7 +215,12 @@ public class UserDB {
         int id = dbResult.getInt("id");
         String name = dbResult.getString("name");
         String firebase_uid = dbResult.getString("firebase_uid");
+        int point = dbResult.getInt("point");
 
-        return new User(id, name, firebase_uid);
+        return UserBuilder.anUser(id)
+                .withName(name)
+                .withFirebaseUid(firebase_uid)
+                .withPoint(point)
+                .build();
     }
 }

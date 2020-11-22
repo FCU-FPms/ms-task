@@ -4,6 +4,7 @@ public class User {
     private int id;
     private String name;
     private String firebaseUid;
+    private int point;
 
     public User() {
 
@@ -44,12 +45,21 @@ public class User {
         this.firebaseUid = firebaseUid;
     }
 
+    public int getPoint() {
+        return point;
+    }
+
+    public void setPoint(int point) {
+        this.point = point;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", firebaseUid='" + firebaseUid + '\'' +
+                ", point='" + point + '\'' +
                 '}';
     }
 }
