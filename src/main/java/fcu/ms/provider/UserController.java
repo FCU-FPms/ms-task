@@ -65,6 +65,18 @@ public class UserController {
         }
     }
 
+    @PostMapping(value = "/{userId}/{point}")
+    public ResponseEntity<String> changeUserPoint(@PathVariable int userId, @PathVariable int point) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json");
+        boolean is_success = userDB.changeUserPint(point, userId);
+        if(is_success) {
+            return new ResponseEntity<String>(headers, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<String>("Error to change user point", headers, HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @DeleteMapping(value = "/{id}")
     public ResponseEntity deleteUser(@PathVariable int id){
         boolean is_success = userDB.deleteUser(id);

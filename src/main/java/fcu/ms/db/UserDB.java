@@ -123,6 +123,38 @@ public class UserDB {
         return user;
     }
 
+    public boolean changeUserPint(int point, int userId) {
+        boolean is_success = false;
+
+        String sqlString = "UPDATE `user` " +
+                           "SET `user`.`point` = ? " +
+                           "WHERE `user`.`id` = ? ";
+
+        Connection connection = null;
+        PreparedStatement preStmt = null;
+
+        try {
+            connection = MySqlBoneCP.getInstance().getConnection();
+            preStmt = connection.prepareStatement(sqlString);
+            preStmt.setInt(1, point);
+            preStmt.setInt(2, userId);
+            preStmt.executeUpdate();
+            is_success = true;
+
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex);
+        }
+
+        try {
+            preStmt.close();
+            connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return is_success;
+    }
+
     public boolean createUser(User user) {
 
         boolean is_success = false;
