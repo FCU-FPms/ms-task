@@ -70,7 +70,7 @@ public class TaskDBTest {
 
     @Test
     void getUserRequestTasks() {
-        List<Task> taskList = taskDB.getUserRequestTasks(14);
+        List<Task> taskList = taskDB.getUserRequestTasks(21);
         assertTrue(taskList.size() > 0); // 如果沒資料會報錯
     }
 

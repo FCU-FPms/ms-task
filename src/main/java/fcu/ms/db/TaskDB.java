@@ -147,9 +147,9 @@ public class TaskDB {
     public List<Task> getUserRequestTasks(int userId) {
         List<Task> tasks = new ArrayList<>();
 
-        String sqlString = "SELECT `task`.* FROM `task`,`request_task_users` " +
+        String sqlString = "SELECT `task`.`*` FROM `task`,`request_task_users` " +
                            "WHERE `request_task_users`.`task_id` = `task`.`id` " +
-                           "AND `request_task_users`.`user_id` = ?" +
+                           "AND `request_task_users`.`user_id` = ? " +
                            "AND `task`.`receive_user_id` != ?";
         try {
             Connection connection = MySqlBoneCP.getInstance().getConnection();
