@@ -67,11 +67,21 @@ public class TaskController {
         return new ResponseEntity<Object>(entities, headers, HttpStatus.OK);
     }
 
-    @GetMapping("/WithoutUserId/{userId}")
+    @GetMapping("/WithoutUserId/{userId}") // 準備棄用 已被 getCanRequestTasks 取代
     public ResponseEntity<Object> getTasksWithoutMyTask(@PathVariable int userId) {
         HttpHeaders headers = createBaseHttpHeaders();
 
-        List<Task> taskList = taskDB.getTasksWithoutMyTask(userId);
+        List<Task> taskList = taskDB.getCanRequestTasks(userId);
+        List<JSONObject> entities = UtilForJson.getEachTask(taskList);
+        return new ResponseEntity<Object>(entities, headers, HttpStatus.OK);
+    }
+
+    // 要輸入是哪一個使用者 可以申請的
+    @GetMapping("/CanRequest/{userId}")
+    public ResponseEntity<Object> getCanRequestTasks(@PathVariable int userId) {
+        HttpHeaders headers = createBaseHttpHeaders();
+
+        List<Task> taskList = taskDB.getCanRequestTasks(userId);
         List<JSONObject> entities = UtilForJson.getEachTask(taskList);
         return new ResponseEntity<Object>(entities, headers, HttpStatus.OK);
     }

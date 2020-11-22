@@ -85,4 +85,11 @@ public class TaskDBTest {
         List<Task> taskList = taskDB.getUserEndTasks(14);
         assertTrue(taskList.size() > 0); // 如果沒資料會報錯
     }
+
+    @Test
+    void getCanRequestTasks() {
+        List<Task> taskList = taskDB.getCanRequestTasks(21);
+        System.out.println(taskList);
+        assertTrue(taskList.size() > 0); // 如果沒資料會報錯
+    }
 }

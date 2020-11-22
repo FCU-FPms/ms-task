@@ -96,10 +96,20 @@ public class TaskDB {
         return tasks;
     }
 
-    public List<Task> getTasksWithoutMyTask(int userId) {
+    // 只會顯示出 狀態 是已發布 跟 boos 已選擇, 執行中後的就不會顯示了
+    public List<Task> getCanRequestTasks(int userId) {
         List<Task> tasks = new ArrayList<>();
 
-        String sqlString = "SELECT * FROM `task` WHERE `release_user_id` != ? ORDER BY `release_time` DESC";
+        String sqlString = "SELECT `task`.* FROM `task`, `save_tasks_state` WHERE `release_user_id` != ? " +
+                           "AND `save_tasks_state`.`taskID` = `task`.`id` " +
+
+                                 "AND `save_tasks_state`.`step_time` = " +
+                                 "( SELECT  MAX( `step_time` ) " +
+                                 "FROM `task`, `save_tasks_state` " +
+                                 "WHERE `save_tasks_state`.`taskID` = `task`.`id`) " +
+
+                           "AND (`save_tasks_state`.`task_state_id` = 1 OR `save_tasks_state`.`task_state_id` = 2) " +
+                           "ORDER BY `task`.`release_time` DESC";
         try {
             Connection connection = MySqlBoneCP.getInstance().getConnection();
             PreparedStatement preStmt = connection.prepareStatement(sqlString);
