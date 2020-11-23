@@ -69,11 +69,35 @@ public class UserController {
     public ResponseEntity<String> changeUserPoint(@PathVariable int userId, @PathVariable int point) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
-        boolean is_success = userDB.changeUserPint(point, userId);
+        boolean is_success = userDB.changeUserPoint(point, userId);
         if(is_success) {
             return new ResponseEntity<String>(headers, HttpStatus.OK);
         } else {
             return new ResponseEntity<String>("Error to change user point", headers, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping(value = "/{userId}/deductionUserPoint/{point}")
+    public ResponseEntity<String> deductionUserPoint(@PathVariable int userId, @PathVariable int point) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json");
+        boolean is_success = userDB.deductionUserPoint(point, userId);
+        if(is_success) {
+            return new ResponseEntity<String>(headers, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<String>("Error to deduction user point", headers, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping(value = "/{userId}/increaseUserPoint/{point}")
+    public ResponseEntity<String> increaseUserPoint(@PathVariable int userId, @PathVariable int point) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json");
+        boolean is_success = userDB.increaseUserPoint(point, userId);
+        if(is_success) {
+            return new ResponseEntity<String>(headers, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<String>("Error to increase user point", headers, HttpStatus.BAD_REQUEST);
         }
     }
 

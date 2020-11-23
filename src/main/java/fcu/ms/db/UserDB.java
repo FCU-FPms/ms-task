@@ -123,7 +123,7 @@ public class UserDB {
         return user;
     }
 
-    public boolean changeUserPint(int point, int userId) {
+    public boolean changeUserPoint(int point, int userId) {
         boolean is_success = false;
 
         String sqlString = "UPDATE `user` " +
@@ -148,6 +148,113 @@ public class UserDB {
         try {
             preStmt.close();
             connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return is_success;
+    }
+
+    public boolean deductionUserPoint(int point, int userId) {
+        boolean is_success = false;
+
+        String sqlCheckPoint = "SELECT `point` " +
+                               "FROM `user` " +
+                               "WHERE `id` = ? " +
+                               "AND `point` >= ? ";
+
+        String sqlUpdatePoint = "UPDATE `user` " +
+                "SET `user`.`point` = ? " +
+                "WHERE `user`.`id` = ? ";
+
+        Connection connection = null;
+        PreparedStatement preStmtCheckPoint = null;
+        PreparedStatement preStmtUpdatePoint = null;
+
+        ResultSet rs = null;
+
+        try {
+            connection = MySqlBoneCP.getInstance().getConnection();
+
+            preStmtCheckPoint = connection.prepareStatement(sqlCheckPoint);
+            preStmtUpdatePoint = connection.prepareStatement(sqlUpdatePoint);
+
+            preStmtCheckPoint.setInt(1, userId);
+            preStmtCheckPoint.setInt(2, point);
+            rs = preStmtCheckPoint.executeQuery();
+            if(rs.next()) {
+
+                int userPoint = rs.getInt("point"); // 拿使用者目前的point
+
+                preStmtUpdatePoint.setInt(1, userPoint - point);
+                preStmtUpdatePoint.setInt(2, userId);
+                preStmtUpdatePoint.executeUpdate();
+                is_success = true;
+            } else {
+                is_success = false;
+            }
+
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex);
+        }
+
+        try {
+            preStmtCheckPoint.close();
+            preStmtUpdatePoint.close();
+            connection.close();
+            rs.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return is_success;
+    }
+
+    public boolean increaseUserPoint(int point, int userId) {
+        boolean is_success = false;
+
+        String sqlGetPoint = "SELECT `point` " +
+                "FROM `user` " +
+                "WHERE `id` = ? ";
+
+        String sqlUpdatePoint = "UPDATE `user` " +
+                "SET `user`.`point` = ? " +
+                "WHERE `user`.`id` = ? ";
+
+        Connection connection = null;
+        PreparedStatement preStmtGetPoint = null;
+        PreparedStatement preStmtUpdatePoint = null;
+
+
+        ResultSet rs = null;
+
+        try {
+            connection = MySqlBoneCP.getInstance().getConnection();
+
+            preStmtGetPoint = connection.prepareStatement(sqlGetPoint);
+            preStmtUpdatePoint = connection.prepareStatement(sqlUpdatePoint);
+
+            preStmtGetPoint.setInt(1, userId);
+            rs = preStmtGetPoint.executeQuery();
+            if(rs.next()) {
+                int userPoint = rs.getInt("point"); // 拿使用者目前的point
+                preStmtUpdatePoint.setInt(1, userPoint + point);
+                preStmtUpdatePoint.setInt(2, userId);
+                preStmtUpdatePoint.executeUpdate();
+                is_success = true;
+            } else {
+                is_success = false;
+            }
+
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex);
+        }
+
+        try {
+            preStmtGetPoint.close();
+            preStmtUpdatePoint.close();
+            connection.close();
+            rs.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
