@@ -105,7 +105,7 @@ public class TaskDB {
 
                                  "AND `save_tasks_state`.`step_time` = " +
                                  "( SELECT  MAX( `step_time` ) " +
-                                 "FROM `task`, `save_tasks_state` " +
+                                 "FROM `save_tasks_state` " +
                                  "WHERE `save_tasks_state`.`taskID` = `task`.`id`) " +
 
                            "AND (`save_tasks_state`.`task_state_id` = 1 OR `save_tasks_state`.`task_state_id` = 2) " +
