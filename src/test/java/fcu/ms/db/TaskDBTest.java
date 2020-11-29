@@ -76,7 +76,8 @@ public class TaskDBTest {
 
     @Test
     void getReceiveUserTasks() {
-        List<Task> taskList = taskDB.getUserReceiveAndOnGoingTasks(21);
+        List<Task> taskList = taskDB.getUserReceiveAndOnGoingTasks(22);
+        System.out.println(taskList);
         assertTrue(taskList.size() > 0); // 如果沒資料會報錯
     }
 
